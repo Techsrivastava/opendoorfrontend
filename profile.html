@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <title>My Profile - Open Door Expeditions</title>
+    
+    <!-- Favicon Icon -->
+    <link rel="shortcut icon" type="image/png" href="images/logos/open door logo 2.0-02.png">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com/">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Manrope:wght@200..800&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap Css -->
+    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <!-- Font Awesome Icon Css-->
+    <link href="css/all.min.css" rel="stylesheet" media="screen">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-0xC4pHQtKJkqZpY5K1BZ7m8r3D+y4j8l1Ph4j4bN3uU1+HdMuJ/9DSh1khYH3Uiv+5qg6M1GZ+yMSV+Q8G+dag==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Main Custom Css -->
+    <link href="css/custom.css" rel="stylesheet" media="screen">
+    <!-- Auth Modal Css -->
+    <link href="css/auth-modal.css" rel="stylesheet" media="screen">
+
+    
+    <style>
+        .profile-hero {
+            background: linear-gradient(135deg, #F5AD4C 0%, #e69b3a 100%);
+            padding: 80px 0 60px;
+            margin-top: 0;
+        }
+        
+        .profile-hero h1 {
+            color: #ffffff;
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+        
+        .profile-hero p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 18px;
+        }
+        
+        .profile-container {
+            padding: 60px 0;
+            min-height: 60vh;
+        }
+        
+        .profile-card {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            margin-bottom: 30px;
+        }
+        
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 2px solid #f1f5f9;
+        }
+        
+        .avatar-section {
+            position: relative;
+        }
+        
+        .avatar-large {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #F5AD4C 0%, #e69b3a 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            font-size: 48px;
+            font-weight: 700;
+            border: 5px solid #ffffff;
+            box-shadow: 0 4px 12px rgba(245, 173, 76, 0.3);
+        }
+        
+        .avatar-upload {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 40px;
+            height: 40px;
+            background: #ffffff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            border: 2px solid #F5AD4C;
+            transition: all 0.3s ease;
+        }
+        
+        .avatar-upload:hover {
+            background: #F5AD4C;
+            color: #ffffff;
+        }
+        
+        .avatar-upload input {
+            display: none;
+        }
+        
+        .profile-info h2 {
+            color: #0f172a;
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .profile-info p {
+            color: #64748b;
+            font-size: 16px;
+            margin: 0;
+        }
+        
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+            padding: 25px;
+            border-radius: 12px;
+            border: 2px solid #f1f5f9;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            border-color: #F5AD4C;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(245, 173, 76, 0.15);
+        }
+        
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #F5AD4C 0%, #e69b3a 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            font-size: 24px;
+            margin: 0 auto 15px;
+        }
+        
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 14px;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+        
+        .form-section {
+            margin-bottom: 30px;
+        }
+        
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f1f5f9;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #334155;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            font-family: 'Manrope', sans-serif;
+            background: #f8fafc;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: #F5AD4C;
+            background: #ffffff;
+            box-shadow: 0 0 0 4px rgba(245, 173, 76, 0.1);
+        }
+        
+        .form-control:disabled {
+            background: #f1f5f9;
+            color: #94a3b8;
+            cursor: not-allowed;
+        }
+        
+        .btn-save {
+            padding: 14px 40px;
+            background: linear-gradient(135deg, #F5AD4C 0%, #e69b3a 100%);
+            color: #ffffff;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 12px rgba(245, 173, 76, 0.3);
+        }
+        
+        .btn-save:hover {
+            background: linear-gradient(135deg, #e69b3a 0%, #d88a28 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(245, 173, 76, 0.4);
+        }
+        
+        .btn-save:disabled {
+            background: #cbd5e1;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+        
+        .alert-profile {
+            padding: 15px 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            display: none;
+        }
+        
+        .alert-profile.show {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+        
+        .alert-success {
+            background: #d1fae5;
+            color: #065f46;
+            border: 1px solid #6ee7b7;
+        }
+        
+        .alert-error {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fca5a5;
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .quick-actions {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+        
+        .action-btn {
+            padding: 12px 24px;
+            background: #ffffff;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            color: #334155;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .action-btn:hover {
+            border-color: #F5AD4C;
+            color: #F5AD4C;
+            background: #fffbf5;
+            transform: translateY(-2px);
+        }
+        
+        .loading-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .loading-overlay.show {
+            display: flex;
+        }
+        
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 5px solid #f1f5f9;
+            border-top-color: #F5AD4C;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+
+<body>
+     <!-- Header Start -->
+    <header class="main-header">
+        <div class="header-sticky">
+            <nav class="navbar  navbar-expand-lg" style="height: 80px;">
+                <div class="container">
+                    <!-- Logo Start -->
+                    <a class="navbar-brand" href="index.html">
+                        <img src="images/logos/open door logo 2.0-02.png" id="logo" style="height: 160px; width: auto;" alt="Logo">
+                    </a>
+                    <!-- Logo End -->
+
+                    <!-- Main Menu Start -->
+                    <div class="collapse navbar-collapse main-menu">
+                        <div class="nav-menu-wrapper">
+                            <ul class="navbar-nav mr-auto" id="menu">
+                                <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                                <li class="nav-item"><a class="nav-link" href="about.html">About Us</a></li>
+                                <li class="nav-item"><a class="nav-link" href="treks.html">Treks</a></li>
+                                <li class="nav-item"><a class="nav-link" href="expeditions.html">Expeditions</a></li>
+                                <li class="nav-item"><a class="nav-link" href="spiritual.html">Spiritual</a></li>
+                                <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
+                                <li class="nav-item"><a class="nav-link" href="contact.html">Contact Us</a></li>
+                            </ul>
+                        </div>
+
+                        <!-- Header Btn Start -->
+                        <div class="header-btn">
+                            <!-- Auth Button (shown when not logged in) -->
+                            <button id="authBtn" class="btn-default btn-highlighted" onclick="openModal('loginModal')">
+                                <i class="fas fa-user-circle"></i> Get Started
+                            </button>
+                            
+                            <!-- User Profile Dropdown (shown when logged in) -->
+                            <div id="userProfileDropdown" class="user-profile-dropdown">
+                                <div class="user-profile-btn" onclick="toggleUserDropdown()">
+                                    <div class="user-avatar">U</div>
+                                    <span class="user-name">User</span>
+                                    <i class="fas fa-chevron-down" style="font-size: 12px; color: #94a3b8; margin-left: 5px;"></i>
+                                </div>
+                                <div class="dropdown-menu-custom">
+                                    <a href="profile.html" class="dropdown-item-custom">
+                                        <i class="fas fa-user"></i>
+                                        <span>My Profile</span>
+                                    </a>
+                                    <a href="my-bookings.html" class="dropdown-item-custom">
+                                        <i class="fas fa-ticket-alt"></i>
+                                        <span>My Bookings</span>
+                                    </a>
+                                    <a href="#" class="dropdown-item-custom" onclick="logout(); return false;">
+                                        <i class="fas fa-sign-out-alt"></i>
+                                        <span>Logout</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Header Btn End -->
+                    </div>
+                    <!-- Main Menu End -->
+                    <div class="navbar-toggle"></div>
+                </div>
+            </nav>
+            <div class="responsive-menu"></div>
+        </div>
+    </header>
+    <!-- Header End -->
+
+    <!-- Hero Section -->
+    <section class="profile-hero">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h1><i class="fas fa-user-circle"></i> My Profile</h1>
+                    <p>Manage your personal information and preferences</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Profile Container -->
+    <section class="profile-container">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <!-- Loading Overlay -->
+                    <div id="loadingOverlay" class="loading-overlay">
+                        <div class="spinner"></div>
+                    </div>
+
+                    <!-- Profile Card -->
+                    <div class="profile-card">
+                        <!-- Alert -->
+                        <div id="profileAlert" class="alert-profile"></div>
+
+                        <!-- Profile Header -->
+                        <div class="profile-header">
+                            <div class="avatar-section">
+                                <div class="avatar-large" id="avatarDisplay">U</div>
+                                <label class="avatar-upload" for="avatarInput">
+                                    <i class="fas fa-camera"></i>
+                                    <input type="file" id="avatarInput" accept="image/*" onchange="handleAvatarUpload(event)">
+                                </label>
+                            </div>
+                            <div class="profile-info">
+                                <h2 id="displayName">Loading...</h2>
+                                <p id="displayPhone"><i class="fas fa-phone"></i> Loading...</p>
+                                <p id="displayEmail"><i class="fas fa-envelope"></i> Not set</p>
+                            </div>
+                        </div>
+
+                        <!-- Stats Row -->
+                        <div class="stats-row">
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-ticket-alt"></i>
+                                </div>
+                                <div class="stat-value" id="totalBookings">0</div>
+                                <div class="stat-label">Total Bookings</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-rupee-sign"></i>
+                                </div>
+                                <div class="stat-value" id="totalSpent">₹0</div>
+                                <div class="stat-label">Total Spent</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-calendar-check"></i>
+                                </div>
+                                <div class="stat-value" id="memberSince">-</div>
+                                <div class="stat-label">Member Since</div>
+                            </div>
+                        </div>
+
+                        <!-- Edit Profile Form -->
+                        <form id="profileForm" onsubmit="handleProfileUpdate(event)">
+                            <div class="form-section">
+                                <h3 class="section-title"><i class="fas fa-user-edit"></i> Personal Information</h3>
+                                
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label">Full Name</label>
+                                            <input type="text" class="form-control" id="inputName" placeholder="Enter your full name">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label">Phone Number</label>
+                                            <input type="tel" class="form-control" id="inputPhone" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label">Email Address</label>
+                                            <input type="email" class="form-control" id="inputEmail" placeholder="your@email.com">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label">Location</label>
+                                            <input type="text" class="form-control" id="inputLocation" placeholder="City, State">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn-save">
+                                <i class="fas fa-save"></i> Save Changes
+                            </button>
+                        </form>
+
+                        <!-- Quick Actions -->
+                        <div class="quick-actions">
+                            <a href="my-bookings.html" class="action-btn">
+                                <i class="fas fa-ticket-alt"></i>
+                                <span>View My Bookings</span>
+                            </a>
+                            <a href="trips.html" class="action-btn">
+                                <i class="fas fa-compass"></i>
+                                <span>Browse Expeditions</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- jQuery Js file -->
+    <script src="js/jquery-3.7.1.min.js"></script>
+    <!-- Main Custom js file -->
+    <script src="js/function.js"></script>
+    <!-- Currency Converter Script -->
+    <script src="js/currency-converter.js"></script>
+    
+    <!-- Authentication Modals -->
+    <div id="authModalsContainer"></div>
+    <script>
+        fetch('auth-modals.html')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('authModalsContainer').innerHTML = html;
+            });
+    </script>
+    
+    <!-- API Helper & Auth Scripts -->
+    <script src="js/api-helper.js"></script>
+    <script src="js/auth.js"></script>
+    
+    <!-- Profile Page Script -->
+    <script>
+        // Check if user is logged in
+        if (!isLoggedIn()) {
+            window.location.href = 'index.html';
+        }
+
+        let currentCustomerId = null;
+
+        // Load profile on page load
+        document.addEventListener('DOMContentLoaded', async function() {
+            await loadProfile();
+        });
+
+        async function loadProfile() {
+            currentCustomerId = getCurrentCustomerId();
+            
+            if (!currentCustomerId) {
+                window.location.href = 'index.html';
+                return;
+            }
+
+            showLoading(true);
+
+            try {
+                const result = await CustomerAPI.getProfile();
+
+                if (result.success && result.data) {
+                    displayProfile(result.data);
+                    // Update currentCustomerId from response
+                    currentCustomerId = result.data._id;
+                } else {
+                    showAlert('error', 'Failed to load profile data');
+                }
+            } catch (error) {
+                console.error('Error loading profile:', error);
+                showAlert('error', 'Network error. Please try again.');
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        function displayProfile(customer) {
+            // Update display elements
+            document.getElementById('displayName').textContent = customer.name || 'Not Set';
+            document.getElementById('displayPhone').innerHTML = `<i class="fas fa-phone"></i> ${customer.phone || '-'}`;
+            document.getElementById('displayEmail').innerHTML = `<i class="fas fa-envelope"></i> ${customer.email || 'Not set'}`;
+
+            // Update avatar
+            const avatarDisplay = document.getElementById('avatarDisplay');
+            if (customer.avatar) {
+                avatarDisplay.innerHTML = `<img src="${customer.avatar}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;" />`;
+            } else {
+                avatarDisplay.textContent = (customer.name || 'U').charAt(0).toUpperCase();
+            }
+
+            // Update form inputs
+            document.getElementById('inputName').value = customer.name || '';
+            document.getElementById('inputPhone').value = customer.phone || '';
+            document.getElementById('inputEmail').value = customer.email || '';
+            document.getElementById('inputLocation').value = customer.location || '';
+
+            // Update stats
+            document.getElementById('totalBookings').textContent = customer.totalBookings || 0;
+            document.getElementById('totalSpent').textContent = '₹' + (customer.totalSpent || 0).toLocaleString('en-IN');
+            
+            if (customer.createdAt) {
+                const memberDate = new Date(customer.createdAt);
+                document.getElementById('memberSince').textContent = memberDate.toLocaleDateString('en-IN', { month: 'short', year: 'numeric' });
+            }
+        }
+
+        async function handleProfileUpdate(event) {
+            event.preventDefault();
+
+            const name = document.getElementById('inputName').value.trim();
+            const email = document.getElementById('inputEmail').value.trim();
+            const location = document.getElementById('inputLocation').value.trim();
+
+            if (!name) {
+                showAlert('error', 'Please enter your name');
+                return;
+            }
+
+            showLoading(true);
+
+            try {
+                const result = await CustomerAPI.updateProfile({
+                    name,
+                    email,
+                    location
+                });
+
+                if (result.success) {
+                    showAlert('success', 'Profile updated successfully!');
+                    await loadProfile(); // Reload profile data
+                } else {
+                    showAlert('error', result.message || 'Failed to update profile');
+                }
+            } catch (error) {
+                console.error('Error updating profile:', error);
+                showAlert('error', 'Network error. Please try again.');
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        async function handleAvatarUpload(event) {
+            const file = event.target.files[0];
+            
+            if (!file) return;
+
+            // Validate file type
+            if (!file.type.startsWith('image/')) {
+                showAlert('error', 'Please select an image file');
+                return;
+            }
+
+            // Validate file size (max 5MB)
+            if (file.size > 5 * 1024 * 1024) {
+                showAlert('error', 'Image size should be less than 5MB');
+                return;
+            }
+
+            showLoading(true);
+
+            try {
+                const result = await CustomerAPI.updateProfile({
+                    avatar: file
+                });
+
+                if (result.success) {
+                    showAlert('success', 'Profile picture updated successfully!');
+                    await loadProfile();
+                } else {
+                    showAlert('error', result.message || 'Failed to upload image');
+                }
+            } catch (error) {
+                console.error('Error uploading avatar:', error);
+                showAlert('error', 'Failed to upload image. Please try again.');
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        function showAlert(type, message) {
+            const alert = document.getElementById('profileAlert');
+            alert.className = `alert-profile alert-${type} show`;
+            alert.textContent = message;
+
+            setTimeout(() => {
+                alert.classList.remove('show');
+            }, 5000);
+
+            // Scroll to top to show alert
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function showLoading(show) {
+            const overlay = document.getElementById('loadingOverlay');
+            if (show) {
+                overlay.classList.add('show');
+            } else {
+                overlay.classList.remove('show');
+            }
+        }
+    </script>
+</body>
+</html>

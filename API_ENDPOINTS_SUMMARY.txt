@@ -1,0 +1,322 @@
+═══════════════════════════════════════════════════════════════════
+                    WILDEX BACKEND API SUMMARY
+═══════════════════════════════════════════════════════════════════
+
+Backend Location: Open_Backen folder
+Server URL: http://localhost:5000
+Status: ✅ FULLY IMPLEMENTED
+
+═══════════════════════════════════════════════════════════════════
+                    1. AUTHENTICATION ENDPOINTS
+═══════════════════════════════════════════════════════════════════
+
+📌 REGISTRATION FLOW:
+   └─ POST /api/customers/send-otp
+      Body: { "phone": "7999817080" }
+      Returns: { "success": true, "customerId": "..." }
+   
+   └─ POST /api/customers/verify-otp
+      Body: { "customerId": "...", "otp": "123456" }
+      Returns: { "success": true, "data": {...}, "token": "..." }
+
+📌 LOGIN FLOW:
+   └─ POST /api/customers/login/send-otp
+      Body: { "phone": "7999817080" }
+      Returns: { "success": true, "customerId": "..." }
+   
+   └─ POST /api/customers/login/verify-otp
+      Body: { "customerId": "...", "otp": "123456" }
+      Returns: { "success": true, "data": {...}, "token": "..." }
+
+═══════════════════════════════════════════════════════════════════
+                    2. CUSTOMER PROFILE ENDPOINTS
+═══════════════════════════════════════════════════════════════════
+
+📌 GET /api/customers/profile/:id
+   Headers: Authorization: Bearer <token>
+   Returns: Customer profile with bookings
+
+📌 PUT /api/customers/profile/:id
+   Headers: Authorization: Bearer <token>
+   Body: FormData (name, email, location, avatar file)
+   Returns: Updated profile
+
+📌 GET /api/customers/:customerId/wishlist
+   Headers: Authorization: Bearer <token>
+   Returns: Wishlist packages
+
+📌 GET /api/customers/:customerId/payments
+   Headers: Authorization: Bearer <token>
+   Returns: Payment history
+
+═══════════════════════════════════════════════════════════════════
+                    3. BOOKING ENDPOINTS
+═══════════════════════════════════════════════════════════════════
+
+📌 POST /api/bookings/create
+   Headers: Authorization: Bearer <token>
+   Body: {
+     "customer": "customer_id",
+     "package": "package_id",
+     "travelDate": "2024-12-25",
+     "amount": 5000,
+     "participants": 2,
+     "bookedBy": "Self",
+     "advance": 1000,
+     "addons": []
+   }
+   Returns: Booking confirmation with bookingId
+
+📌 GET /api/bookings/customer/:customerId
+   Headers: Authorization: Bearer <token>
+   Returns: All bookings for customer
+
+📌 GET /api/bookings/:id
+   Headers: Authorization: Bearer <token>
+   Returns: Single booking details
+
+📌 PUT /api/bookings/:id
+   Headers: Authorization: Bearer <token>
+   Body: { fields to update }
+   Returns: Updated booking
+
+📌 PATCH /api/bookings/:id/status
+   Headers: Authorization: Bearer <token>
+   Body: { "status": "Cancelled" }
+   Returns: Updated booking status
+
+📌 POST /api/bookings/:id/collect-payment
+   Headers: Authorization: Bearer <token>
+   Body: {
+     "amount": 2000,
+     "method": "UPI",
+     "collectedBy": "Self",
+     "notes": "Payment via UPI"
+   }
+   Returns: Payment confirmation
+
+═══════════════════════════════════════════════════════════════════
+                    4. PACKAGE ENDPOINTS
+═══════════════════════════════════════════════════════════════════
+
+📌 GET /api/packages
+   Returns: All active packages
+
+📌 GET /api/packages/:id
+   Returns: Single package details
+
+📌 GET /api/packages/slug/:slug
+   Returns: Package by URL slug
+
+═══════════════════════════════════════════════════════════════════
+                    5. CATEGORY ENDPOINTS
+═══════════════════════════════════════════════════════════════════
+
+📌 GET /api/categories
+   Returns: All categories
+
+📌 GET /api/categories/:id
+   Returns: Single category with packages
+
+═══════════════════════════════════════════════════════════════════
+                    6. PAYMENT ENDPOINTS (RAZORPAY)
+═══════════════════════════════════════════════════════════════════
+
+📌 POST /api/payments/create-order
+   Body: { "amount": 5000 }
+   Returns: Razorpay order details
+
+📌 POST /api/payments/verify
+   Body: {
+     "razorpay_order_id": "...",
+     "razorpay_payment_id": "...",
+     "razorpay_signature": "..."
+   }
+   Returns: Payment verification status
+
+═══════════════════════════════════════════════════════════════════
+                    7. INVOICE ENDPOINTS
+═══════════════════════════════════════════════════════════════════
+
+📌 GET /api/invoices/:bookingId
+   Returns: Invoice PDF URL
+
+📌 POST /api/invoices/generate/:bookingId
+   Returns: Generated invoice URL
+
+═══════════════════════════════════════════════════════════════════
+                    RESPONSE FORMAT
+═══════════════════════════════════════════════════════════════════
+
+✅ SUCCESS RESPONSE:
+{
+  "success": true,
+  "message": "Operation successful",
+  "data": { ... }
+}
+
+❌ ERROR RESPONSE:
+{
+  "success": false,
+  "message": "Error message",
+  "error": "Detailed error"
+}
+
+═══════════════════════════════════════════════════════════════════
+                    AUTHENTICATION FLOW
+═══════════════════════════════════════════════════════════════════
+
+REGISTRATION:
+1. User enters phone number
+2. Call: POST /api/customers/send-otp
+3. OTP sent to phone via Message Central
+4. User enters OTP
+5. Call: POST /api/customers/verify-otp
+6. Account created + JWT token returned
+7. Save token in localStorage
+8. Redirect to profile completion
+
+LOGIN:
+1. User enters phone number
+2. Call: POST /api/customers/login/send-otp
+3. OTP sent to phone
+4. User enters OTP
+5. Call: POST /api/customers/login/verify-otp
+6. JWT token returned
+7. Save token in localStorage
+8. Redirect to dashboard
+
+═══════════════════════════════════════════════════════════════════
+                    BOOKING FLOW
+═══════════════════════════════════════════════════════════════════
+
+1. User browses packages (GET /api/packages)
+2. User selects package and clicks "Book Now"
+3. Check if user is logged in (localStorage.getItem('authToken'))
+4. If not logged in → show login modal
+5. User fills booking form (date, participants, etc.)
+6. Call: POST /api/bookings/create
+7. Booking created with status "Pending"
+8. User makes payment
+9. Call: POST /api/bookings/:id/collect-payment
+10. Booking status updated to "Confirmed"
+11. Invoice generated automatically
+12. Email sent to customer
+
+═══════════════════════════════════════════════════════════════════
+                    IMPORTANT NOTES
+═══════════════════════════════════════════════════════════════════
+
+✅ JWT Token expires in 30 days
+✅ OTP expires in 10 minutes
+✅ All amounts in Rupees (₹)
+✅ Phone numbers must be unique
+✅ Files uploaded to AWS S3
+✅ Invoices generated via PDFKit
+✅ Real-time notifications via Socket.io
+✅ Email via Nodemailer (SMTP)
+✅ Payment via Razorpay
+
+═══════════════════════════════════════════════════════════════════
+                    HOW TO START BACKEND
+═══════════════════════════════════════════════════════════════════
+
+Open Terminal:
+cd "d:\Flutter Projects\Projects\clone Website\Fine -one\html.awaikenthemes.com\Open_Backen"
+npm install
+npm start
+
+Server will run on: http://localhost:5000
+
+═══════════════════════════════════════════════════════════════════
+                    CREATED FILES FOR INTEGRATION
+═══════════════════════════════════════════════════════════════════
+
+✅ wildex/BACKEND_INTEGRATION.md     - Complete integration guide
+✅ wildex/js/api-helper.js            - JavaScript API helper functions
+✅ wildex/QUICK_START.md              - Quick start guide with examples
+✅ wildex/API_ENDPOINTS_SUMMARY.txt   - This file
+
+═══════════════════════════════════════════════════════════════════
+                    USAGE IN YOUR HTML FILES
+═══════════════════════════════════════════════════════════════════
+
+<!-- Include before closing </body> tag -->
+<script src="js/api-helper.js"></script>
+
+<!-- Then use in your scripts -->
+<script>
+// Login example
+AuthAPI.sendLoginOTP('7999817080')
+  .then(response => {
+    if (response.success) {
+      console.log('OTP sent!');
+    }
+  });
+
+// Get packages example
+PackageAPI.getAll()
+  .then(response => {
+    if (response.success) {
+      console.log('Packages:', response.data);
+    }
+  });
+
+// Create booking example
+BookingAPI.createBooking({
+  packageId: 'pkg_123',
+  travelDate: '2024-12-25',
+  participants: 2,
+  amount: 5000,
+  advancePayment: 1000
+}).then(response => {
+  if (response.success) {
+    console.log('Booking ID:', response.data.bookingId);
+  }
+});
+</script>
+
+═══════════════════════════════════════════════════════════════════
+                    TESTING THE API
+═══════════════════════════════════════════════════════════════════
+
+Using cURL:
+curl -X POST http://localhost:5000/api/customers/send-otp \
+  -H "Content-Type: application/json" \
+  -d '{"phone":"7999817080"}'
+
+Using JavaScript (Browser Console):
+fetch('http://localhost:5000/api/packages')
+  .then(r => r.json())
+  .then(d => console.log(d))
+
+Using Postman:
+Import collection from Open_Backen/API_Documentation.md
+
+═══════════════════════════════════════════════════════════════════
+                    ENVIRONMENT VARIABLES (.env)
+═══════════════════════════════════════════════════════════════════
+
+MONGO_URI          - MongoDB connection string
+JWT_SECRET         - Secret key for JWT tokens
+AWS_ACCESS_KEY_ID  - AWS S3 for file uploads
+RAZORPAY_KEY_ID    - Razorpay payment gateway
+SMTP_USER          - Email for sending notifications
+PORT               - Server port (default: 5000)
+
+All configured in: Open_Backen/.env
+
+═══════════════════════════════════════════════════════════════════
+                    SUPPORT & DOCUMENTATION
+═══════════════════════════════════════════════════════════════════
+
+📁 Backend Code:         Open_Backen/
+📄 API Documentation:    Open_Backen/API_Documentation.md
+📄 Auth Documentation:   Open_Backen/Authentication_Documentation.md
+📄 Integration Guide:    wildex/BACKEND_INTEGRATION.md
+📄 Quick Start:          wildex/QUICK_START.md
+📄 API Helper:           wildex/js/api-helper.js
+
+═══════════════════════════════════════════════════════════════════
+                    END OF SUMMARY
+═══════════════════════════════════════════════════════════════════

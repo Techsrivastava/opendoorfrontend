@@ -1,0 +1,40 @@
+{
+  "name": "Open Door Expeditions",
+  "short_name": "ODE",
+  "description": "Premier Himalayan Trekking & Adventure Tours",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#F5AD4C",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/images/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/images/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/images/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ],
+  "categories": ["travel", "tourism", "adventure"],
+  "screenshots": [
+    {
+      "src": "/images/screenshot-1.png",
+      "type": "image/png",
+      "sizes": "540x720"
+    }
+  ],
+  "scope": "/",
+  "lang": "en",
+  "dir": "ltr"
+}

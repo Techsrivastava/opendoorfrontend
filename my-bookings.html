@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <title>My Bookings - Open Door Expeditions</title>
+    
+    <!-- Favicon Icon -->
+    <link rel="shortcut icon" type="image/png" href="images/logos/open door logo 2.0-02.png">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com/">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Manrope:wght@200..800&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap Css -->
+    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <!-- Font Awesome Icon Css-->
+    <link href="css/all.min.css" rel="stylesheet" media="screen">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-0xC4pHQtKJkqZpY5K1BZ7m8r3D+y4j8l1Ph4j4bN3uU1+HdMuJ/9DSh1khYH3Uiv+5qg6M1GZ+yMSV+Q8G+dag==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Main Custom Css -->
+    <link href="css/custom.css" rel="stylesheet" media="screen">
+    <!-- Auth Modal Css -->
+    <link href="css/auth-modal.css" rel="stylesheet" media="screen">
+    
+    <style>
+        .bookings-hero {
+            background: linear-gradient(135deg, #F5AD4C 0%, #e69b3a 100%);
+            padding: 80px 0 60px;
+            margin-top: 0;
+        }
+        
+        .bookings-hero h1 {
+            color: #ffffff;
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+        
+        .bookings-hero p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 18px;
+        }
+        
+        .bookings-container {
+            padding: 60px 0;
+            min-height: 60vh;
+        }
+        
+        .booking-card {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            border: 2px solid #f1f5f9;
+        }
+        
+        .booking-card:hover {
+            box-shadow: 0 8px 24px rgba(245, 173, 76, 0.15);
+            border-color: #F5AD4C;
+            transform: translateY(-2px);
+        }
+        
+        .booking-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #f1f5f9;
+        }
+        
+        .booking-id {
+            font-size: 20px;
+            font-weight: 700;
+            color: #0f172a;
+        }
+        
+        .booking-status {
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .status-confirmed {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        
+        .status-pending {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        
+        .status-cancelled {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+        
+        .status-completed {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+        
+        .booking-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .detail-item {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .detail-label {
+            font-size: 13px;
+            color: #64748b;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 5px;
+        }
+        
+        .detail-value {
+            font-size: 16px;
+            color: #0f172a;
+            font-weight: 600;
+        }
+        
+        .booking-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px solid #f1f5f9;
+        }
+        
+        .btn-action {
+            padding: 10px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-primary {
+            background: #F5AD4C;
+            color: #ffffff;
+        }
+        
+        .btn-primary:hover {
+            background: #e69b3a;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(245, 173, 76, 0.3);
+        }
+        
+        .btn-secondary {
+            background: #f1f5f9;
+            color: #475569;
+        }
+        
+        .btn-secondary:hover {
+            background: #e2e8f0;
+            color: #334155;
+        }
+        
+        .btn-danger {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+        
+        .btn-danger:hover {
+            background: #fecaca;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 80px 20px;
+        }
+        
+        .empty-state i {
+            font-size: 80px;
+            color: #cbd5e1;
+            margin-bottom: 20px;
+        }
+        
+        .empty-state h3 {
+            color: #334155;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .empty-state p {
+            color: #64748b;
+            font-size: 16px;
+            margin-bottom: 30px;
+        }
+        
+        .loading-state {
+            text-align: center;
+            padding: 60px 20px;
+            display: none;
+        }
+        
+        .loading-state.show {
+            display: block;
+        }
+        
+        .spinner-large {
+            width: 60px;
+            height: 60px;
+            border: 5px solid #f1f5f9;
+            border-top-color: #F5AD4C;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .package-name {
+            color: #F5AD4C;
+            font-weight: 600;
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+
+<body>
+  <!-- Header Start -->
+    <header class="main-header">
+        <div class="header-sticky">
+            <nav class="navbar  navbar-expand-lg" style="height: 80px;">
+                <div class="container">
+                    <!-- Logo Start -->
+                    <a class="navbar-brand" href="index.html">
+                        <img src="images/logos/open door logo 2.0-02.png" id="logo" style="height: 160px; width: auto;" alt="Logo">
+                    </a>
+                    <!-- Logo End -->
+
+                    <!-- Main Menu Start -->
+                    <div class="collapse navbar-collapse main-menu">
+                        <div class="nav-menu-wrapper">
+                            <ul class="navbar-nav mr-auto" id="menu">
+                                <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                                <li class="nav-item"><a class="nav-link" href="about.html">About Us</a></li>
+                                <li class="nav-item"><a class="nav-link" href="treks.html">Treks</a></li>
+                                <li class="nav-item"><a class="nav-link" href="expeditions.html">Expeditions</a></li>
+                                <li class="nav-item"><a class="nav-link" href="spiritual.html">Spiritual</a></li>
+                                <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
+                                <li class="nav-item"><a class="nav-link" href="contact.html">Contact Us</a></li>
+                            </ul>
+                        </div>
+
+                        <!-- Header Btn Start -->
+                        <div class="header-btn">
+                            <!-- Auth Button (shown when not logged in) -->
+                            <button id="authBtn" class="btn-default btn-highlighted" onclick="openModal('loginModal')">
+                                <i class="fas fa-user-circle"></i> Get Started
+                            </button>
+                            
+                            <!-- User Profile Dropdown (shown when logged in) -->
+                            <div id="userProfileDropdown" class="user-profile-dropdown">
+                                <div class="user-profile-btn" onclick="toggleUserDropdown()">
+                                    <div class="user-avatar">U</div>
+                                    <span class="user-name">User</span>
+                                    <i class="fas fa-chevron-down" style="font-size: 12px; color: #94a3b8; margin-left: 5px;"></i>
+                                </div>
+                                <div class="dropdown-menu-custom">
+                                    <a href="profile.html" class="dropdown-item-custom">
+                                        <i class="fas fa-user"></i>
+                                        <span>My Profile</span>
+                                    </a>
+                                    <a href="my-bookings.html" class="dropdown-item-custom">
+                                        <i class="fas fa-ticket-alt"></i>
+                                        <span>My Bookings</span>
+                                    </a>
+                                    <a href="#" class="dropdown-item-custom" onclick="logout(); return false;">
+                                        <i class="fas fa-sign-out-alt"></i>
+                                        <span>Logout</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Header Btn End -->
+                    </div>
+                    <!-- Main Menu End -->
+                    <div class="navbar-toggle"></div>
+                </div>
+            </nav>
+            <div class="responsive-menu"></div>
+        </div>
+    </header>
+    <!-- Header End -->
+
+    <!-- Hero Section -->
+    <section class="bookings-hero">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h1><i class="fas fa-ticket-alt"></i> My Bookings</h1>
+                    <p>View and manage all your adventure bookings</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bookings Container -->
+    <section class="bookings-container">
+        <div class="container">
+            <!-- Loading State -->
+            <div id="loadingState" class="loading-state show">
+                <div class="spinner-large"></div>
+                <h3>Loading your bookings...</h3>
+            </div>
+
+            <!-- Bookings List -->
+            <div id="bookingsList" class="row" style="display: none;">
+                <!-- Bookings will be loaded here dynamically -->
+            </div>
+
+            <!-- Empty State -->
+            <div id="emptyState" class="empty-state" style="display: none;">
+                <i class="fas fa-calendar-times"></i>
+                <h3>No Bookings Yet</h3>
+                <p>You haven't made any bookings yet. Start exploring our amazing expeditions!</p>
+                <a href="trips.html" class="btn-default btn-highlighted">Browse Expeditions</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- jQuery Js file -->
+    <script src="js/jquery-3.7.1.min.js"></script>
+    <!-- Main Custom js file -->
+    <script src="js/function.js"></script>
+    <!-- Currency Converter Script -->
+    <script src="js/currency-converter.js"></script>
+    
+    <!-- Authentication Modals -->
+    <div id="authModalsContainer"></div>
+    <script>
+        fetch('auth-modals.html')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('authModalsContainer').innerHTML = html;
+            });
+    </script>
+    
+    <!-- API Helper & Auth Scripts -->
+    <script src="js/api-helper.js"></script>
+    <script src="js/auth.js"></script>
+    
+    <!-- Bookings Page Script -->
+    <script>
+        // Check if user is logged in
+        if (!isLoggedIn()) {
+            window.location.href = 'index.html';
+        }
+
+        // Load bookings on page load
+        document.addEventListener('DOMContentLoaded', async function() {
+            await loadBookings();
+        });
+
+        async function loadBookings() {
+            const customerId = getCurrentCustomerId();
+            
+            if (!customerId) {
+                window.location.href = 'index.html';
+                return;
+            }
+
+            try {
+                const result = await BookingAPI.getCustomerBookings(customerId);
+
+                document.getElementById('loadingState').classList.remove('show');
+
+                if (result.success && result.data && result.data.length > 0) {
+                    displayBookings(result.data);
+                } else {
+                    document.getElementById('emptyState').style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Error loading bookings:', error);
+                document.getElementById('loadingState').classList.remove('show');
+                document.getElementById('emptyState').style.display = 'block';
+            }
+        }
+
+        function displayBookings(bookings) {
+            const bookingsList = document.getElementById('bookingsList');
+            bookingsList.style.display = 'block';
+            bookingsList.innerHTML = '';
+
+            bookings.forEach(booking => {
+                const bookingCard = createBookingCard(booking);
+                bookingsList.innerHTML += bookingCard;
+            });
+        }
+
+        function createBookingCard(booking) {
+            const packageName = booking.package ? booking.package.name : 'Custom Package';
+            const travelDate = new Date(booking.travelDate).toLocaleDateString('en-IN', {
+                day: '2-digit',
+                month: 'short',
+                year: 'numeric'
+            });
+            const bookingDate = new Date(booking.bookingDate).toLocaleDateString('en-IN', {
+                day: '2-digit',
+                month: 'short',
+                year: 'numeric'
+            });
+
+            const statusClass = `status-${booking.status.toLowerCase()}`;
+            const canCancel = booking.status === 'Pending' || booking.status === 'Confirmed';
+
+            return `
+                <div class="col-12">
+                    <div class="booking-card">
+                        <div class="booking-header">
+                            <div>
+                                <div class="booking-id">Booking #${booking.bookingId}</div>
+                                <div class="package-name">${packageName}</div>
+                            </div>
+                            <span class="booking-status ${statusClass}">${booking.status}</span>
+                        </div>
+                        
+                        <div class="booking-details">
+                            <div class="detail-item">
+                                <span class="detail-label">Travel Date</span>
+                                <span class="detail-value">${travelDate}</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Participants</span>
+                                <span class="detail-value">${booking.participants} People</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Total Amount</span>
+                                <span class="detail-value">₹${booking.amount.toLocaleString('en-IN')}</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Advance Paid</span>
+                                <span class="detail-value">₹${booking.advance.toLocaleString('en-IN')}</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Booking Date</span>
+                                <span class="detail-value">${bookingDate}</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Payment Status</span>
+                                <span class="detail-value">${booking.paymentStatus}</span>
+                            </div>
+                        </div>
+                        
+                        <div class="booking-actions">
+                            <a href="booking-details.html?id=${booking._id}" class="btn-action btn-primary">
+                                <i class="fas fa-eye"></i> View Details
+                            </a>
+                            ${canCancel ? `
+                                <button class="btn-action btn-danger" onclick="cancelBooking('${booking._id}', '${booking.bookingId}')">
+                                    <i class="fas fa-times-circle"></i> Cancel Booking
+                                </button>
+                            ` : ''}
+                            ${booking.invoiceUrl ? `
+                                <a href="${booking.invoiceUrl}" target="_blank" class="btn-action btn-secondary">
+                                    <i class="fas fa-file-invoice"></i> Download Invoice
+                                </a>
+                            ` : ''}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        async function cancelBooking(bookingId, bookingNumber) {
+            if (!confirm(`Are you sure you want to cancel booking ${bookingNumber}?`)) {
+                return;
+            }
+
+            try {
+                const result = await BookingAPI.cancelBooking(bookingId);
+
+                if (result.success) {
+                    alert('Booking cancelled successfully!');
+                    loadBookings(); // Reload bookings
+                } else {
+                    alert('Failed to cancel booking: ' + result.message);
+                }
+            } catch (error) {
+                console.error('Error cancelling booking:', error);
+                alert('Failed to cancel booking. Please try again.');
+            }
+        }
+    </script>
+</body>
+</html>

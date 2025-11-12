@@ -1,0 +1,337 @@
+<!-- Login Modal -->
+<div id="loginModal" class="auth-modal">
+    <div class="auth-modal-content">
+        <div class="auth-modal-header">
+            <span class="auth-close" onclick="closeModal('loginModal')">&times;</span>
+            <h2>Welcome Back!</h2>
+            <p>Login to continue your adventure</p>
+        </div>
+        
+        <div class="auth-modal-body">
+            <!-- Alert Box -->
+            <div class="auth-alert"></div>
+
+            <!-- Step 1: Phone Number -->
+            <div class="auth-step active">
+                <div class="auth-form-group">
+                    <label for="loginPhone">Phone Number</label>
+                    <input 
+                        type="tel" 
+                        id="loginPhone" 
+                        placeholder="Enter 10-digit mobile number"
+                        maxlength="10"
+                        pattern="[0-9]{10}"
+                    >
+                </div>
+                
+                <button class="auth-btn" onclick="sendLoginOTP()">
+                    Send OTP
+                </button>
+
+                <div class="auth-helper-text">
+                    Don't have an account? <a href="#" onclick="switchToRegister()">Sign Up</a>
+                </div>
+            </div>
+
+            <!-- Step 2: OTP Verification -->
+            <div class="auth-step">
+                <div class="auth-form-group">
+                    <label>Enter OTP</label>
+                    <p style="font-size: 13px; color: #64748b; margin-bottom: 16px;">
+                        We've sent a 4-digit code to your phone
+                    </p>
+                    <div class="otp-input-group">
+                        <input type="text" class="otp-input" maxlength="1" oninput="handleOTPInput(event, 0)" />
+                        <input type="text" class="otp-input" maxlength="1" oninput="handleOTPInput(event, 1)" />
+                        <input type="text" class="otp-input" maxlength="1" oninput="handleOTPInput(event, 2)" />
+                        <input type="text" class="otp-input" maxlength="1" oninput="handleOTPInput(event, 3)" />
+                    </div>
+                </div>
+
+                <button class="auth-btn" onclick="verifyLoginOTP()">
+                    Verify & Login
+                </button>
+
+                <button class="auth-btn auth-btn-secondary" onclick="showStep('loginModal', 1)">
+                    Back
+                </button>
+
+                <div class="resend-otp-text">
+                    Didn't receive the code? 
+                    <a href="javascript:void(0)" class="resend-otp-link" onclick="resendOTP('loginModal')">
+                        Resend OTP
+                    </a>
+                    <span class="timer-text"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Registration Modal -->
+<div id="registerModal" class="auth-modal">
+    <div class="auth-modal-content">
+        <div class="auth-modal-header">
+            <span class="auth-close" onclick="closeModal('registerModal')">&times;</span>
+            <h2>Join the Adventure!</h2>
+            <p>Create your account to start exploring</p>
+        </div>
+        
+        <div class="auth-modal-body">
+            <!-- Alert Box -->
+            <div class="auth-alert"></div>
+
+            <!-- Step 1: Phone Number -->
+            <div class="auth-step active">
+                <div class="auth-form-group">
+                    <label for="registerPhone">Phone Number</label>
+                    <input 
+                        type="tel" 
+                        id="registerPhone" 
+                        placeholder="Enter 10-digit mobile number"
+                        maxlength="10"
+                        pattern="[0-9]{10}"
+                    >
+                </div>
+
+                <button class="auth-btn" onclick="sendRegistrationOTP()">
+                    Send OTP
+                </button>
+
+                <div class="auth-helper-text">
+                    Already have an account? <a href="#" onclick="switchToLogin()">Login</a>
+                </div>
+            </div>
+
+            <!-- Step 2: OTP Verification -->
+            <div class="auth-step">
+                <div class="auth-form-group">
+                    <label>Enter OTP</label>
+                    <p style="font-size: 13px; color: #64748b; margin-bottom: 16px;">
+                        We've sent a 4-digit code to your phone
+                    </p>
+                    <div class="otp-input-group">
+                        <input type="text" class="otp-input" maxlength="1" oninput="handleOTPInput(event, 0)" />
+                        <input type="text" class="otp-input" maxlength="1" oninput="handleOTPInput(event, 1)" />
+                        <input type="text" class="otp-input" maxlength="1" oninput="handleOTPInput(event, 2)" />
+                        <input type="text" class="otp-input" maxlength="1" oninput="handleOTPInput(event, 3)" />
+                    </div>
+                </div>
+
+                <button class="auth-btn" onclick="verifyRegistrationOTP()">
+                    Verify & Register
+                </button>
+
+                <button class="auth-btn auth-btn-secondary" onclick="showStep('registerModal', 1)">
+                    Back
+                </button>
+
+                <div class="resend-otp-text">
+                    Didn't receive the code? 
+                    <a href="javascript:void(0)" class="resend-otp-link" onclick="resendOTP('registerModal')">
+                        Resend OTP
+                    </a>
+                    <span class="timer-text"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Booking Modal -->
+<div id="bookingModal" class="auth-modal">
+    <div class="auth-modal-content" style="max-width: 600px;">
+        <div class="auth-modal-header">
+            <span class="auth-close" onclick="closeBookingModal()">&times;</span>
+            <h2><i class="fas fa-mountain"></i> Book Your Adventure</h2>
+            <p id="bookingPackageName">Select your travel date and participants</p>
+        </div>
+        
+        <div class="auth-modal-body">
+            <!-- Alert Box -->
+            <div class="auth-alert" id="bookingModalAlert"></div>
+            
+            <!-- Success Message (hidden by default) -->
+            <div id="bookingSuccessMessage" style="display: none; background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; padding: 20px; border-radius: 12px; margin-bottom: 20px; text-align: center;">
+                <i class="fas fa-check-circle" style="font-size: 48px; margin-bottom: 10px;"></i>
+                <h3 style="margin: 10px 0; font-size: 20px; font-weight: 700;">Payment Successful! 🎉</h3>
+                <p style="margin: 0; font-size: 14px; opacity: 0.9;">Your booking has been confirmed. Redirecting...</p>
+            </div>
+
+            <!-- Package Summary -->
+            <div style="background: linear-gradient(135deg, #FFF8E7 0%, #FFFFFF 100%); border: 2px solid #F5AD4C; border-radius: 12px; padding: 20px; margin-bottom: 25px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                    <span style="color: #64748b; font-weight: 600;"><i class="fas fa-clock"></i> Duration</span>
+                    <span id="modalPackageDuration" style="font-weight: 700; color: #0f172a;">-</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                    <span style="color: #64748b; font-weight: 600;"><i class="fas fa-map-marker-alt"></i> Location</span>
+                    <span id="modalPackageLocation" style="font-weight: 700; color: #0f172a;">-</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 10px; border-top: 2px solid #F5AD4C;">
+                    <span style="color: #64748b; font-weight: 600;"><i class="fas fa-rupee-sign"></i> Price per Person</span>
+                    <span id="modalPackagePrice" style="font-weight: 800; color: #F5AD4C; font-size: 20px;">₹0</span>
+                </div>
+            </div>
+
+            <!-- Quick Booking Form -->
+            <form id="quickBookingForm" onsubmit="handleQuickBooking(event)">
+                <div class="auth-form-group">
+                    <label>Select Batch Date</label>
+                    <select 
+                        id="modalBatchDate"
+                        style="width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 8px; font-size: 15px; background: white;"
+                        required
+                    >
+                        <option value="">Choose a batch...</option>
+                    </select>
+                    <small style="color: #64748b; margin-top: 5px; display: block;">
+                        <i class="fas fa-info-circle"></i> Available departure dates
+                    </small>
+                </div>
+
+                <div class="auth-form-group">
+                    <label>Number of Participants</label>
+                    <div style="display: flex; align-items: center; gap: 15px; background: #f8fafc; padding: 10px; border-radius: 8px; border: 1px solid #e2e8f0;">
+                        <button 
+                            type="button" 
+                            onclick="decreaseParticipants()"
+                            style="width: 40px; height: 40px; border: none; background: #F5AD4C; color: white; border-radius: 8px; font-size: 18px; font-weight: bold; cursor: pointer; transition: all 0.3s;"
+                            onmouseover="this.style.background='#e69b3a'"
+                            onmouseout="this.style.background='#F5AD4C'"
+                        >
+                            −
+                        </button>
+                        <input 
+                            type="number" 
+                            id="modalParticipants"
+                            min="1"
+                            max="50"
+                            value="1"
+                            readonly
+                            style="flex: 1; text-align: center; padding: 12px; border: none; background: white; border-radius: 8px; font-size: 18px; font-weight: 700; color: #0f172a;"
+                        >
+                        <button 
+                            type="button" 
+                            onclick="increaseParticipants()"
+                            style="width: 40px; height: 40px; border: none; background: #F5AD4C; color: white; border-radius: 8px; font-size: 18px; font-weight: bold; cursor: pointer; transition: all 0.3s;"
+                            onmouseover="this.style.background='#e69b3a'"
+                            onmouseout="this.style.background='#F5AD4C'"
+                        >
+                            +
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Addons Section -->
+                <div id="modalAddonsSection" style="display: none;">
+                    <div class="auth-form-group">
+                        <label>Add-ons (Optional)</label>
+                        <div id="modalAddonsList" style="display: flex; flex-direction: column; gap: 10px;">
+                            <!-- Addons will be loaded dynamically -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="auth-form-group">
+                    <label>Coupon Code (Optional)</label>
+                    <div style="display: flex; gap: 10px;">
+                        <input 
+                            type="text" 
+                            id="modalCouponCode"
+                            placeholder="Enter coupon code"
+                            style="flex: 1; padding: 12px; border: 1px solid #e2e8f0; border-radius: 8px; font-size: 15px; text-transform: uppercase;"
+                        >
+                        <button 
+                            type="button" 
+                            onclick="applyModalCoupon()"
+                            style="padding: 12px 20px; background: #F5AD4C; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.3s;"
+                            onmouseover="this.style.background='#e69b3a'"
+                            onmouseout="this.style.background='#F5AD4C'"
+                        >
+                            Apply
+                        </button>
+                    </div>
+                    <small id="modalCouponMessage" style="color: #10b981; margin-top: 5px; display: none;">
+                        <i class="fas fa-check-circle"></i> Coupon applied successfully!
+                    </small>
+                </div>
+
+                <!-- Payment Type Selection -->
+                <div class="auth-form-group">
+                    <label>Payment Type</label>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                        <div onclick="selectPaymentType('advance')" 
+                             id="advancePaymentOption"
+                             style="padding: 16px; border: 2px solid #e2e8f0; border-radius: 8px; cursor: pointer; text-align: center; transition: all 0.3s; background: #f8fafc;">
+                            <div style="font-weight: 700; color: #0f172a; margin-bottom: 5px; font-size: 16px;">Advance Payment</div>
+                            <div id="advanceAmount" style="color: #F5AD4C; font-weight: 800; font-size: 18px; margin-bottom: 5px;">₹0</div>
+                            <div style="font-size: 12px; color: #64748b;">Pay advance now</div>
+                        </div>
+                        <div onclick="selectPaymentType('full')" 
+                             id="fullPaymentOption"
+                             style="padding: 16px; border: 2px solid #F5AD4C; border-radius: 8px; cursor: pointer; text-align: center; transition: all 0.3s; background: linear-gradient(135deg, #FFF8E7 0%, #FFFFFF 100%);">
+                            <div style="font-weight: 700; color: #0f172a; margin-bottom: 5px; font-size: 16px;">Full Payment</div>
+                            <div id="fullAmount" style="color: #F5AD4C; font-weight: 800; font-size: 18px; margin-bottom: 5px;">₹0</div>
+                            <div style="font-size: 12px; color: #64748b;">
+                                <i class="fas fa-badge-check"></i> Best Value
+                            </div>
+                        </div>
+                    </div>
+                    <input type="hidden" id="selectedPaymentType" value="full">
+                    <small style="color: #64748b; margin-top: 8px; display: block;">
+                        <i class="fas fa-info-circle"></i> <span id="paymentTypeNote">Pay full amount to confirm booking</span>
+                    </small>
+                </div>
+
+                <!-- Price Breakdown -->
+                <div style="background: #f8fafc; border-radius: 8px; padding: 15px; margin-bottom: 20px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                        <span style="color: #64748b;">Subtotal (×<span id="modalParticipantCount">1</span>):</span>
+                        <span id="modalSubtotal" style="font-weight: 600;">₹0</span>
+                    </div>
+                    <div id="modalDiscountRow" style="display: none; justify-content: space-between; margin-bottom: 8px;">
+                        <span style="color: #10b981;">Discount (<span id="modalDiscountPercent">0</span>%):</span>
+                        <span id="modalDiscountAmount" style="font-weight: 600; color: #10b981;">- ₹0</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; padding-top: 10px; border-top: 2px solid #F5AD4C;">
+                        <span style="color: #0f172a; font-weight: 700;">Total Amount:</span>
+                        <span id="modalTotalAmount" style="font-weight: 800; color: #F5AD4C; font-size: 18px;">₹0</span>
+                    </div>
+                </div>
+
+                <button type="submit" class="auth-btn" id="modalConfirmPayBtn">
+                    <i class="fas fa-credit-card"></i> Confirm & Pay
+                </button>
+
+                <div class="auth-helper-text">
+                    Need to know more? <a href="#" onclick="closeBookingModal(); return false;">View full details</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- User Profile Dropdown (shown when logged in) -->
+<div id="userProfileDropdown" class="user-profile-dropdown">
+    <div class="user-profile-btn" onclick="toggleUserDropdown()">
+        <div class="user-avatar">U</div>
+        <span class="user-name">User</span>
+        <i class="fas fa-chevron-down" style="font-size: 12px; color: #94a3b8;"></i>
+    </div>
+    
+    <div class="dropdown-menu-custom">
+        <a href="profile.html" class="dropdown-item-custom">
+            <i class="fas fa-user"></i>
+            <span>My Profile</span>
+        </a>
+        <a href="my-bookings.html" class="dropdown-item-custom">
+            <i class="fas fa-ticket-alt"></i>
+            <span>My Bookings</span>
+        </a>
+        <a href="#" class="dropdown-item-custom" onclick="logout(); return false;">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>Logout</span>
+        </a>
+    </div>
+</div>

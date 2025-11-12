@@ -1,0 +1,246 @@
+/* Booking Form Additional Styles */
+
+/* Addon Options Styling */
+.addon-options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 12px;
+}
+
+.addon-option {
+    display: flex;
+    align-items: center;
+    padding: 16px;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: #ffffff;
+}
+
+.addon-option:hover {
+    border-color: #F5AD4C;
+    background: #fff8f0;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(245, 173, 76, 0.15);
+}
+
+.addon-option input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    margin-right: 16px;
+    accent-color: #F5AD4C;
+    cursor: pointer;
+}
+
+.addon-option input[type="checkbox"]:checked + .addon-name {
+    color: #F5AD4C;
+    font-weight: 600;
+}
+
+.addon-name {
+    flex: 1;
+    font-size: 15px;
+    font-weight: 500;
+    color: #334155;
+    transition: all 0.3s ease;
+}
+
+.addon-price {
+    font-size: 16px;
+    font-weight: 600;
+    color: #F5AD4C;
+    background: #fff8f0;
+    padding: 6px 12px;
+    border-radius: 8px;
+    border: 1px solid #fed7aa;
+}
+
+/* Form Section Titles */
+.form-section-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #f1f5f9;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.form-section-title i {
+    color: #F5AD4C;
+    font-size: 16px;
+}
+
+/* Enhanced Form Controls */
+.form-control-booking:focus {
+    border-color: #F5AD4C;
+    box-shadow: 0 0 0 3px rgba(245, 173, 76, 0.1);
+    outline: none;
+}
+
+.form-control-booking:invalid {
+    border-color: #ef4444;
+}
+
+.form-control-booking:valid {
+    border-color: #10b981;
+}
+
+/* Alert Styling Enhancement */
+.alert-booking {
+    border-radius: 12px;
+    font-weight: 500;
+    padding: 16px 20px;
+    margin-bottom: 24px;
+    animation: slideDown 0.3s ease;
+}
+
+.alert-booking.alert-success {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+    border: none;
+}
+
+.alert-booking.alert-error {
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    color: white;
+    border: none;
+}
+
+/* Loading Spinner */
+.loading-spinner {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid #ffffff;
+    border-radius: 50%;
+    border-top-color: transparent;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive Addon Options */
+@media (max-width: 768px) {
+    .addon-option {
+        padding: 14px;
+    }
+    
+    .addon-name {
+        font-size: 14px;
+    }
+    
+    .addon-price {
+        font-size: 14px;
+        padding: 4px 8px;
+    }
+}
+
+/* Button Enhancement */
+.btn-book {
+    background: linear-gradient(135deg, #F5AD4C 0%, #e69b3a 100%);
+    border: none;
+    border-radius: 12px;
+    padding: 16px 32px;
+    font-size: 16px;
+    font-weight: 600;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(245, 173, 76, 0.3);
+}
+
+.btn-book:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(245, 173, 76, 0.4);
+    background: linear-gradient(135deg, #e69b3a 0%, #d48a1a 100%);
+}
+
+.btn-book:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: 0 2px 8px rgba(245, 173, 76, 0.2);
+}
+
+/* Form Group Enhancement */
+.form-group-booking {
+    margin-bottom: 20px;
+}
+
+.form-label-booking {
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.form-control-booking {
+    border: 2px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 12px 16px;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+.form-control-booking::placeholder {
+    color: #9ca3af;
+}
+
+/* Price Breakdown Enhancement */
+.price-breakdown {
+    background: #f8fafc;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+    border: 1px solid #e2e8f0;
+}
+
+.price-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    font-size: 15px;
+}
+
+.price-row.total {
+    border-top: 2px solid #e2e8f0;
+    margin-top: 12px;
+    padding-top: 16px;
+    font-weight: 600;
+    font-size: 17px;
+    color: #1e293b;
+}
+
+.price-row span:first-child {
+    color: #64748b;
+}
+
+.price-row span:last-child {
+    font-weight: 600;
+    color: #1e293b;
+}
+
+.price-row.total span:last-child {
+    color: #F5AD4C;
+    font-size: 18px;
+}

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+
+    <!-- Homepage -->
+    <url>
+        <loc>https://opendoorexpeditions.com/</loc>
+        <lastmod>2025-01-30</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>1.0</priority>
+    </url>
+
+    <!-- All Trips/Packages -->
+    <url>
+        <loc>https://opendoorexpeditions.com/trips</loc>
+        <lastmod>2025-01-30</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.9</priority>
+    </url>
+
+    <!-- About Us -->
+    <url>
+        <loc>https://opendoorexpeditions.com/about</loc>
+        <lastmod>2025-01-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <!-- Contact -->
+    <url>
+        <loc>https://opendoorexpeditions.com/contact</loc>
+        <lastmod>2025-01-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <!-- Blog -->
+    <url>
+        <loc>https://opendoorexpeditions.com/blog</loc>
+        <lastmod>2025-01-30</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <!-- Services -->
+    <url>
+        <loc>https://opendoorexpeditions.com/services</loc>
+        <lastmod>2025-01-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <!-- FAQs -->
+    <url>
+        <loc>https://opendoorexpeditions.com/faqs</loc>
+        <lastmod>2025-01-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+
+    <!-- Testimonials -->
+    <url>
+        <loc>https://opendoorexpeditions.com/testimonials</loc>
+        <lastmod>2025-01-30</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+
+    <!-- Gallery -->
+    <url>
+        <loc>https://opendoorexpeditions.com/image-gallery</loc>
+        <lastmod>2025-01-30</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.5</priority>
+    </url>
+
+    <url>
+        <loc>https://opendoorexpeditions.com/video-gallery</loc>
+        <lastmod>2025-01-30</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.5</priority>
+    </url>
+
+    <!-- Team -->
+    <url>
+        <loc>https://opendoorexpeditions.com/team</loc>
+        <lastmod>2025-01-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+
+    <!-- Individual Package Pages (Add dynamically as needed) -->
+    <!-- Example: Kedarnath -->
+    <url>
+        <loc>https://opendoorexpeditions.com/trip/kedarnath-dham</loc>
+        <lastmod>2025-01-30</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+
+    <!-- Example: Do Dham Yatra -->
+    <url>
+        <loc>https://opendoorexpeditions.com/trip/do-dham-yatra</loc>
+        <lastmod>2025-01-30</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+
+    <!-- Example: Char Dham Yatra -->
+    <url>
+        <loc>https://opendoorexpeditions.com/trip/char-dham-yatra</loc>
+        <lastmod>2025-01-30</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+
+    <!-- Example: Kashmir Tour -->
+    <url>
+        <loc>https://opendoorexpeditions.com/trip/kashmir-tour</loc>
+        <lastmod>2025-01-30</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+
+    <!-- Blog Posts (Add dynamically as needed) -->
+    <url>
+        <loc>https://opendoorexpeditions.com/blog/best-time-visit-kedarnath</loc>
+        <lastmod>2025-01-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+
+</urlset>
