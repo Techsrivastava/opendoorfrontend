@@ -682,6 +682,70 @@ const PackageAPI = {
       console.error('Get Package by Slug Error:', error);
       return { success: false, message: 'Failed to fetch package details' };
     }
+  },
+
+  /**
+   * Get Packages by Category
+   * @param {string} categoryName - Category name (Trekking, Trips, Expeditions, Spiritual)
+   * @returns {Promise} List of packages in category
+   */
+  getByCategory: async function(categoryName) {
+    try {
+      const response = await fetch(`${API_CONFIG.baseURL}/packages?category=${encodeURIComponent(categoryName)}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      });
+      
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error('Get Packages by Category Error:', error);
+      return { success: false, message: 'Failed to fetch packages by category' };
+    }
+  },
+
+  /**
+   * Get Featured Packages
+   * @returns {Promise} List of featured packages
+   */
+  getFeatured: async function() {
+    try {
+      const response = await fetch(`${API_CONFIG.baseURL}/packages?featured=true`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      });
+      
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error('Get Featured Packages Error:', error);
+      return { success: false, message: 'Failed to fetch featured packages' };
+    }
+  },
+
+  /**
+   * Get Trending Packages
+   * @returns {Promise} List of trending packages
+   */
+  getTrending: async function() {
+    try {
+      const response = await fetch(`${API_CONFIG.baseURL}/packages?trending=true`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      });
+      
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error('Get Trending Packages Error:', error);
+      return { success: false, message: 'Failed to fetch trending packages' };
+    }
   }
 };
 

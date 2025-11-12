@@ -57,6 +57,8 @@
 	<link href="css/custom.css" rel="stylesheet" media="screen">
 	<!-- Auth Modal Css -->
 	<link href="css/auth-modal.css" rel="stylesheet" media="screen">
+	<!-- Package Cards Css -->
+	<link href="css/package-cards.css" rel="stylesheet" media="screen">
 
 </head>
 <body>
@@ -115,8 +117,10 @@
                             <ul class="navbar-nav mr-auto" id="menu">
                                 <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
                                 <li class="nav-item"><a class="nav-link" href="about.html">About Us</a></li>
-                                <li class="nav-item"><a class="nav-link" href="trips.html">Expeditions</a></li>
-                                <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
+                                <li class="nav-item"><a class="nav-link" href="treks.html">Treks</a></li>
+                                <li class="nav-item highlighter"><a class="nav-link" href="trips.html">Trips</a></li>
+                                <li class="nav-item"><a class="nav-link" href="expeditions.html">Expeditions</a></li>
+                                <li class="nav-item"><a class="nav-link" href="spiritual.html">Spiritual</a></li>
                                 <li class="nav-item"><a class="nav-link" href="contact.html">Contact Us</a></li>
                             </ul>
                         </div>
@@ -167,11 +171,11 @@
                 <div class="col-lg-12">
                     <!-- Page Header Box Start -->
                     <div class="page-header-box">
-                        <h1 class="text-anime-style-3" data-cursor="-opaque">Browse Expedetion</h1>
+                        <h1 class="text-anime-style-3" data-cursor="-opaque">Adventure Trips & Tours</h1>
                         <nav class="wow fadeInUp">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="index.html">home</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Browse expedition</li>
+                                <li class="breadcrumb-item active" aria-current="page">Trips</li>
                             </ol>
                         </nav>
                     </div>
@@ -183,11 +187,39 @@
     <!-- Page Header Section End -->
 
     <!-- Page Trips Start -->
-    <div class="page-trips">
+    <div class="page-trips" style="padding: 80px 0;">
         <div class="container">
+            <!-- Section Title Start -->
+            <div class="row section-row">
+                <div class="col-lg-12">
+                    <div class="section-title section-title-center">
+                        <h3 class="wow fadeInUp" style="color: #F5AD4C; font-size: 16px; text-transform: uppercase; letter-spacing: 2px; font-weight: 600;">ADVENTURE TRIPS</h3>
+                        <h2 class="text-effect" data-cursor="-opaque">
+                            Discover incredible journeys and scenic adventures
+                        </h2>
+                        <p class="wow fadeInUp" data-wow-delay="0.2s" style="max-width: 700px; margin: 20px auto 0; color: #64748b; font-size: 16px;">
+                            From scenic road trips to cultural expeditions, explore our curated collection of adventure trips
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <!-- Section Title End -->
+
+            <!-- Package Filters Start -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div id="package-filters" class="wow fadeInUp" data-wow-delay="0.3s">
+                        <!-- Dynamic filters will be rendered here -->
+                    </div>
+                </div>
+            </div>
+            <!-- Package Filters End -->
+
+            <!-- Packages Grid Start -->
             <div class="row" id="trip-list">
                 <!-- Dynamic Packages Will Load Here -->
             </div>
+            <!-- Packages Grid End -->
         </div>
     </div>
     <!-- Page Trips End -->
@@ -522,76 +554,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     <script src="js/booking-helper.js"></script>
     <!-- Currency Converter Script -->
     <script src="js/currency-converter.js"></script>
+    <!-- Package Renderer Script -->
+    <script src="js/package-renderer.js"></script>
 
-    <!-- Custom Script for API Fetch -->
-    <script>
-        async function loadPackages() {
-            try {
-                const response = await fetch("https://openbacken-production.up.railway.app/api/packages");
-                const data = await response.json();
-
-                if (data.success && Array.isArray(data.data)) {
-                    const container = document.getElementById("trip-list");
-                    data.data.forEach((pkg, index) => {
-                        const location = `${pkg.city || ""}, ${pkg.state || ""}`.trim().replace(/^,|,$/g, "") || "India";
-                        const priceINR = parseInt(pkg.offerPrice) || 0;
-                        const price = priceINR ? `<span data-price-inr="${priceINR}">₹${priceINR.toLocaleString('en-IN')}</span>` : "Price on Request";
-                        const seats = pkg.maxParticipants ? `${pkg.maxParticipants - (pkg.bookingsCount || 0)} slots` : "Available";
-
-                        const col = document.createElement("div");
-                        col.className = `col-xl-4 col-md-6`;
-                        col.innerHTML = `
-                            <div class="trip-item wow fadeInUp" data-wow-delay="${index * 0.2}s">
-                                <div class="trip-item-image" style="position: relative; overflow: hidden; border-radius: 12px;">
-                                    <a href="trip-single.html?slug=${pkg.slug}" data-cursor-text="View">
-                                        <figure>
-                                            <img src="${pkg.images?.cardImage || 'images/default-package.jpg'}" alt="${pkg.name}" style="width: 100%; height: auto; border-radius: 12px; display: block;">
-                                            <div class="package-overlay" style="position: absolute; top: 0; left: 0; right: 0; background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8), transparent); color: #fff; padding: 10px 15px; font-size: 14px; display: flex; justify-content: space-between; align-items: center; border-top-left-radius: 12px; border-top-right-radius: 12px; z-index: 2;">
-                                                <span style="display: flex; align-items: center; gap: 6px;"><i class="fa-solid fa-location-dot" style="font-size: 14px; opacity: 0.9;"></i>${location}</span>
-                                               
-                                                <span style="display: flex; align-items: center; gap: 6px;"><i class="fa-solid fa-users" style="font-size: 14px; opacity: 0.9;"></i>${seats}</span>
-                                            </div>
-                                        </figure>
-                                    </a>
-                                </div>
-                                <div class="trip-item-body">
-                                    <div class="trip-item-content">
-                                        <h3><a href="trip-single.html?slug=${pkg.slug}">${pkg.name}</a></h3>
-                                         <span style="font-weight: bold; color: #ffd700;">${price}</span>
-                                        <p>${pkg.description ? pkg.description.slice(0, 100) + "..." : "Experience an unforgettable adventure."}</p>
-                                    </div>
-                                    <div class="trip-item-btn">
-                                        <a href="trip-single.html?slug=${pkg.slug}" class="btn-default" style="margin-right: 10px;">Explore</a>
-                                        <button class="btn-default btn-highlighted" onclick="handleBookNow('${pkg._id}')" style="display: inline-block;">
-                                            <i class="fas fa-ticket-alt"></i> Book Now
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        `;
-                        container.appendChild(col);
-                    });
-                    
-                    // Update prices with current currency after loading
-                    setTimeout(() => {
-                        if (window.currencyConverter) {
-                            window.currencyConverter.updateAllPrices();
-                        }
-                    }, 300);
-                } else {
-                    console.warn("No valid package data found.");
-                }
-            } catch (error) {
-                console.error("Failed to load packages:", error);
-                const container = document.getElementById("trip-list");
-                const col = document.createElement("div");
-                col.className = "col-12";
-                col.innerHTML = `<p class="text-center">Unable to load trips at this time. Please try again later.</p>`;
-                container.appendChild(col);
-            }
-        }
-
-        document.addEventListener("DOMContentLoaded", loadPackages);
-    </script>
 </body>
 </html>
