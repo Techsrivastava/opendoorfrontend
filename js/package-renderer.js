@@ -121,11 +121,13 @@ class PackageRenderer {
     if (!category) return '';
     const c = category.toString().toLowerCase();
 
-    if (c.includes('trek')) return 'trek';
-    if (c.includes('spiritual') || c.includes('pilgrim') || c.includes('dham')) return 'spiritual';
-    if (c.includes('expedit') || c.includes('adventur')) return 'expedition';
-    if (c.includes('trip')) return 'trips';
+    // Return values matching backend expected category names (capitalized)
+    if (c.includes('trek')) return 'Trekking';
+    if (c.includes('spiritual') || c.includes('pilgrim') || c.includes('dham') || c.includes('yatra')) return 'Spiritual';
+    if (c.includes('expedit') || c.includes('adventur')) return 'Expeditions';
+    if (c.includes('trip') || c.includes('tour')) return 'Trips';
 
+    // Fallback: return category as-is (useful when already correct)
     return category;
   }
 
@@ -137,49 +139,54 @@ class PackageRenderer {
    */
   mapAndFilterPackages(category, data) {
     if (!Array.isArray(data)) return [];
-
-    const matches = (pkg, checks) => {
+    // Helper to get a normalized category tag for a package: 'trek', 'trip', 'expedition', 'spiritual' or 'other'
+    const detectPackageCategory = (pkg) => {
       const name = (pkg.name || pkg.title || '').toString().toLowerCase();
-      // Normalise category fields from different backends
+
       let catVal = '';
       if (pkg.categoryName) catVal = pkg.categoryName.toString().toLowerCase();
       else if (pkg.category && typeof pkg.category === 'string') catVal = pkg.category.toString().toLowerCase();
       else if (pkg.category && pkg.category.name) catVal = pkg.category.name.toString().toLowerCase();
 
-      for (const c of checks) {
-        if (c.startsWith('name:')) {
-          const needle = c.replace('name:', '');
-          if (name.includes(needle)) return true;
-        } else {
-          if (catVal === c) return true;
-        }
-      }
+      // Check explicit category fields first
+      if (catVal.includes('trek')) return 'trek';
+      if (catVal.includes('trip') || catVal.includes('tour')) return 'trip';
+      if (catVal.includes('expedit') || catVal.includes('adventur')) return 'expedition';
+      if (catVal.includes('spiritual') || catVal.includes('pilgrim') || catVal.includes('dham') || catVal.includes('yatra')) return 'spiritual';
 
-      return false;
+      // Fallback to name heuristics
+      if (name.includes('trek') || name.includes('summit') || name.includes('roopkund') || name.includes('valley of flowers') || name.includes('climb')) return 'trek';
+      if (name.includes('trip') || name.includes('tour') || name.includes('package') || name.includes('city tour')) return 'trip';
+      if (name.includes('expedition') || name.includes('rafting') || name.includes('camping')) return 'expedition';
+      if (name.includes('kedarnath') || name.includes('badrinath') || name.includes('yatra') || name.includes('dham')) return 'spiritual';
+
+      return 'other';
     };
 
-    switch ((category || '').toString().toLowerCase()) {
+    const want = (category || '').toString().toLowerCase();
+
+    switch (want) {
       case 'trekking':
       case 'trek':
       case 'treks':
-        return data.filter(pkg => matches(pkg, ['trek', 'trekking', 'name:trek', 'name:climb', 'name:summit', 'name:valley of flowers', 'name:roopkund']));
+        return data.filter(pkg => detectPackageCategory(pkg) === 'trek');
 
       case 'spiritual':
       case 'pilgrimage':
-        return data.filter(pkg => matches(pkg, ['spiritual', 'pilgrimage', 'char dham', 'name:kedarnath', 'name:dham', 'name:badrinath', 'name:gangotri', 'name:yamunotri', 'name:yatra']));
+        return data.filter(pkg => detectPackageCategory(pkg) === 'spiritual');
 
       case 'expeditions':
       case 'expedition':
       case 'adventure':
-        return data.filter(pkg => matches(pkg, ['expedition', 'adventure', 'name:expedition', 'name:adventure', 'name:rafting', 'name:camping', 'name:kashmir', 'name:ladakh']));
+        return data.filter(pkg => detectPackageCategory(pkg) === 'expedition');
 
       case 'trips':
       case 'trip':
       default:
-        // Trips: show packages explicitly marked as trips/tours or those not matched by other categories
+        // Trips: explicitly include items detected as 'trip' or 'other' (other = general packages that are not treks/expeditions/spiritual)
         return data.filter(pkg => {
-          const isTrip = matches(pkg, ['trip', 'trips', 'tour', 'tours', 'name:trip', 'name:tour', 'name:package']);
-          return isTrip || !matches(pkg, ['trek', 'trekking', 'spiritual', 'pilgrimage', 'expedition', 'adventure']);
+          const detected = detectPackageCategory(pkg);
+          return detected === 'trip' || detected === 'other';
         });
     }
   }
