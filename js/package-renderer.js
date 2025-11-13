@@ -78,11 +78,27 @@ class PackageRenderer {
       if (this.currentCategory === 'all') {
         response = await PackageAPI.getAll();
       } else {
-        response = await PackageAPI.getByCategory(this.currentCategory);
+        // Normalize category to backend expected values before requesting
+        const apiCat = this.normalizeCategoryForApi(this.currentCategory);
+        response = await PackageAPI.getByCategory(apiCat);
       }
       
       if (response.success) {
-        this.packages = response.data || [];
+        // If backend returned packages directly use them, otherwise fallback to client-side filtering
+        let loaded = response.data || [];
+
+        if ((Array.isArray(loaded) && loaded.length === 0) && this.currentCategory !== 'all') {
+          // Backend returned no packages for this category — fetch all and filter client-side
+          const allResp = await PackageAPI.getAll();
+          if (allResp.success && Array.isArray(allResp.data)) {
+            loaded = this.mapAndFilterPackages(this.currentCategory, allResp.data || []);
+          } else {
+            loaded = [];
+          }
+        }
+
+        // Ensure we always have an array
+        this.packages = Array.isArray(loaded) ? loaded : [];
         this.filteredPackages = [...this.packages];
         console.log(`Loaded ${this.packages.length} packages for category: ${this.currentCategory}`);
       } else {
@@ -93,6 +109,78 @@ class PackageRenderer {
       this.packages = [];
       this.filteredPackages = [];
       throw error;
+    }
+  }
+
+  /**
+   * Normalize a UI/page category to API category query value
+   * @param {string} category
+   * @returns {string}
+   */
+  normalizeCategoryForApi(category) {
+    if (!category) return '';
+    const c = category.toString().toLowerCase();
+
+    if (c.includes('trek')) return 'trek';
+    if (c.includes('spiritual') || c.includes('pilgrim') || c.includes('dham')) return 'spiritual';
+    if (c.includes('expedit') || c.includes('adventur')) return 'expedition';
+    if (c.includes('trip')) return 'trips';
+
+    return category;
+  }
+
+  /**
+   * Map and filter raw packages array for a given category using name and category fallbacks
+   * @param {string} category - Page category (Trekking, Trips, Expeditions, Spiritual)
+   * @param {Array} data - Array of package objects
+   * @returns {Array} Filtered packages
+   */
+  mapAndFilterPackages(category, data) {
+    if (!Array.isArray(data)) return [];
+
+    const matches = (pkg, checks) => {
+      const name = (pkg.name || pkg.title || '').toString().toLowerCase();
+      // Normalise category fields from different backends
+      let catVal = '';
+      if (pkg.categoryName) catVal = pkg.categoryName.toString().toLowerCase();
+      else if (pkg.category && typeof pkg.category === 'string') catVal = pkg.category.toString().toLowerCase();
+      else if (pkg.category && pkg.category.name) catVal = pkg.category.name.toString().toLowerCase();
+
+      for (const c of checks) {
+        if (c.startsWith('name:')) {
+          const needle = c.replace('name:', '');
+          if (name.includes(needle)) return true;
+        } else {
+          if (catVal === c) return true;
+        }
+      }
+
+      return false;
+    };
+
+    switch ((category || '').toString().toLowerCase()) {
+      case 'trekking':
+      case 'trek':
+      case 'treks':
+        return data.filter(pkg => matches(pkg, ['trek', 'trekking', 'name:trek', 'name:climb', 'name:summit', 'name:valley of flowers', 'name:roopkund']));
+
+      case 'spiritual':
+      case 'pilgrimage':
+        return data.filter(pkg => matches(pkg, ['spiritual', 'pilgrimage', 'char dham', 'name:kedarnath', 'name:dham', 'name:badrinath', 'name:gangotri', 'name:yamunotri', 'name:yatra']));
+
+      case 'expeditions':
+      case 'expedition':
+      case 'adventure':
+        return data.filter(pkg => matches(pkg, ['expedition', 'adventure', 'name:expedition', 'name:adventure', 'name:rafting', 'name:camping', 'name:kashmir', 'name:ladakh']));
+
+      case 'trips':
+      case 'trip':
+      default:
+        // Trips: show packages explicitly marked as trips/tours or those not matched by other categories
+        return data.filter(pkg => {
+          const isTrip = matches(pkg, ['trip', 'trips', 'tour', 'tours', 'name:trip', 'name:tour', 'name:package']);
+          return isTrip || !matches(pkg, ['trek', 'trekking', 'spiritual', 'pilgrimage', 'expedition', 'adventure']);
+        });
     }
   }
 

@@ -423,9 +423,11 @@
  <div class="footer-links">
                                 <h3>quick links</h3>
                                 <ul>
-                                    <li><a href="index-3.html">Home</a></li>
+                                    <li><a href="index.html">Home</a></li>
                                     <li><a href="about.html">About us</a></li>
-                                    <li><a href="trips.html">Expeditions</a></li>
+                                    <li><a href="treks.html">Treks</a></li>
+                                    <li><a href="trips.html">Trips</a></li>
+                                    <li><a href="expeditions.html">Expeditions</a></li>
                                     <li><a href="blog.html">Blog</a></li>
                                     <li><a href="contact.html">Contact Us</a></li>
                                 </ul>
@@ -447,13 +449,13 @@ document.addEventListener("DOMContentLoaded", async () => {
         const res = await fetch("https://openbacken-production.up.railway.app/api/packages");
         const result = await res.json();
 
-        if (result.success && Array.isArray(result.data) && result.data.length > 0) {
+                if (result.success && Array.isArray(result.data) && result.data.length > 0) {
             footerList.innerHTML = ""; // clear 'Loading...' text
 
             result.data.slice(0, 5).forEach(pkg => {
                 const li = document.createElement("li");
                 const a = document.createElement("a");
-                a.href = `trip-details.html?slug=${pkg.slug}`;
+                a.href = `trip-single.html?slug=${pkg.slug}`;
                 a.textContent = pkg.name || "Unnamed Package";
                 li.appendChild(a);
                 footerList.appendChild(li);
